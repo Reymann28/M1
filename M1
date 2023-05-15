@@ -64,7 +64,7 @@ public class LoginGUI extends JFrame implements ActionListener {
             if (e.getActionCommand().equals("Employee 10001")) {
                 isEmployeeSelected = true;
                 try {
-                    // Do something with employeeNumber...
+                 
 
                     updateMenu();
                 } catch (NumberFormatException ex) {
@@ -80,7 +80,7 @@ public class LoginGUI extends JFrame implements ActionListener {
         getContentPane().removeAll();
         if (isLoggedIn) {
             if (isEmployeeSelected) {
-                // create a JTable with the employee information
+       
                 String[] columns = {"Employee Number", "Last Name", "First Name", "SSS No.", "PhilHealth No.", "TIN", "Pagibig No.", "Basic Salary", "Rice Subsidy", "Phone Allowance", "Clothing Allowance", "Hourly Rate"};
                 String[][] data = {
                         {"10001", "Crisostomo", "Jose", "49-1632020-8", "382189453145", "317-674-022-000", "441093369646", "62,670", "1,500", "1,000", "1,000", "373.04"}
@@ -88,7 +88,7 @@ public class LoginGUI extends JFrame implements ActionListener {
                 JTable table = new JTable(data, columns);
                 JScrollPane scrollPane = new JScrollPane(table);
 
-                // add the JTable to the panel
+              
                 JPanel panel = new JPanel(new BorderLayout());
                 panel.add(scrollPane, BorderLayout.CENTER);
                 JButton backButton = new JButton("Back");
