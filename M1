@@ -1,0 +1,126 @@
+package org.example;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.Serial;
+import javax.swing.JScrollPane;
+
+//password & username is "admin"
+public class LoginGUI extends JFrame implements ActionListener {
+    @Serial
+    private static final long serialVersionUID = 1L;
+    private final JLabel userLabel;
+    private final JLabel passLabel;
+    private final JLabel messageLabel;
+    private final JTextField userField = new JTextField(10);
+    private final JPasswordField passField;
+    private final JButton loginButton;
+    private boolean isLoggedIn = false;
+    private boolean isEmployeeSelected = false;
+
+    public LoginGUI() {
+        setTitle("Login");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(350, 200);
+        setLocationRelativeTo(null);
+
+        userLabel = new JLabel("Username:");
+        passLabel = new JLabel("Password:");
+        messageLabel = new JLabel("");
+
+        passField = new JPasswordField(10);
+
+        loginButton = new JButton("Login");
+        loginButton.addActionListener(this);
+
+        JPanel panel = new JPanel(new GridLayout(3, 2));
+        panel.add(userLabel);
+        panel.add(userField);
+        panel.add(passLabel);
+        panel.add(passField);
+        panel.add(messageLabel);
+        panel.add(loginButton);
+
+        add(panel);
+        setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (!isLoggedIn) {
+            String user = userField.getText();
+            String pass = new String(passField.getPassword());
+
+            if (user.equals("admin") && (pass.equals("admin"))) {
+                isLoggedIn = true;
+                messageLabel.setText("");
+                userField.setText("");
+                passField.setText("");
+                updateMenu();
+            } else {
+                messageLabel.setText("Oops! wrong username or password! ¯\\_(ツ)_/¯");
+            }
+        } else {
+            if (e.getActionCommand().equals("Employee 10001")) {
+                isEmployeeSelected = true;
+                try {
+                    // Do something with employeeNumber...
+
+                    updateMenu();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Employee Number must be a valid integer.", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "An error occurred.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+
+    private void updateMenu() {
+        getContentPane().removeAll();
+        if (isLoggedIn) {
+            if (isEmployeeSelected) {
+                // create a JTable with the employee information
+                String[] columns = {"Employee Number", "Last Name", "First Name", "SSS No.", "PhilHealth No.", "TIN", "Pagibig No.", "Basic Salary", "Rice Subsidy", "Phone Allowance", "Clothing Allowance", "Hourly Rate"};
+                String[][] data = {
+                        {"10001", "Crisostomo", "Jose", "49-1632020-8", "382189453145", "317-674-022-000", "441093369646", "62,670", "1,500", "1,000", "1,000", "373.04"}
+                };
+                JTable table = new JTable(data, columns);
+                JScrollPane scrollPane = new JScrollPane(table);
+
+                // add the JTable to the panel
+                JPanel panel = new JPanel(new BorderLayout());
+                panel.add(scrollPane, BorderLayout.CENTER);
+                JButton backButton = new JButton("Back");
+                backButton.addActionListener(this);
+                panel.add(backButton, BorderLayout.SOUTH);
+                getContentPane().add(panel);
+            } else {
+                JPanel panel = new JPanel(new GridLayout(3, 1));
+                JButton emp1Button = new JButton("Employee 10001");
+                emp1Button.addActionListener(this);
+                panel.add(emp1Button);
+                JButton logoutButton = new JButton("Logout");
+                logoutButton.addActionListener(this);
+                panel.add(logoutButton);
+                getContentPane().add(panel);
+            }
+        } else {
+            JPanel panel = new JPanel(new GridLayout(3, 2));
+            panel.add(userLabel);
+            panel.add(userField);
+            panel.add(passLabel);
+            panel.add(passField);
+            panel.add(messageLabel);
+            panel.add(loginButton);
+            getContentPane().add(panel);
+        }
+        revalidate();
+        repaint();
+    }
+
+
+    public static void main(String[] args) {
+        new LoginGUI();
+    }
+}
